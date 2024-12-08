@@ -1,0 +1,76 @@
+
+version: "3.8"
+
+
+services:
+  web:
+    depends_on: 
+      - api
+    build: ./frontend
+    ports:
+      - 3000:3000
+    environment:
+      VITE_API_URL: http://localhost:8000
+
+
+    develop:
+
+      watch:
+
+        - path: ./frontend/package.json
+          action: rebuild
+        - path: ./frontend/package-lock.json
+          action: rebuild
+        - path: ./frontend
+          target: /app
+          action: sync
+
+
+  api: 
+    depends_on: 
+      - db
+
+    build: ./backend
+    
+    ports: 
+      - 8000:8000
+
+
+    environment: 
+      DB_URL: mongodb+srv://tm217:Tushar16@cluster0.aqzeo9l.mongodb.net/?retryWrites=true&w=majority
+    
+    develop:
+      watch:
+        - path: ./backend/package.json
+          action: rebuild
+        - path: ./backend/package-lock.json
+          action: rebuild
+        
+        - path: ./backend
+          target: /app
+          action: sync
+
+
+  db:
+    image: mongo:latest
+
+    ports:
+      - 27017:27017
+
+    volumes:
+      - mindler:/data/db
+
+  
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 80:80
+    depends_on:
+      - web
+      - api
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+
+volumes:
+  mindler:
