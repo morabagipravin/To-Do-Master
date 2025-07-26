@@ -23,11 +23,11 @@ TaskTracker is a user-friendly app designed to help you manage and remember your
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/tasktracker.git
+   git clone https://github.com/pravinmorabaggi/To-Do-Master
    ```
 2. **Navigate to the Project Directory**:
    ```bash
-   cd tasktracker
+   cd To-Do-Master
    ```
 3. **Install Dependencies**:
    ```bash
